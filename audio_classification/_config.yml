@@ -27,17 +27,20 @@ latex:
 # Information about where the book exists on the web
 repository:
   url: https://github.com/SETIADEEPANSHU/audio_classification/  # Online location of your book
-  path_to_book: audio_classification/_build/html
+  path_to_book: audio_classification
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+
+only_build_toc_files: true
+
 html:
   use_issues_button: true
   use_repository_button: true
 
 launch_buttons:
   notebook_interface          : classic
-  binderhub_url               : "https://mybinder.org"
-  # colab_url                   : "https://colab.research.google.com"
+  # binderhub_url               : "https://mybinder.org"
+  colab_url                   : "https://colab.research.google.com"
   thebe                       : true
