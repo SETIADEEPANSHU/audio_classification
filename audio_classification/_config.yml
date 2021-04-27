@@ -21,13 +21,13 @@ latex:
     targetname: book.tex
 
 # Add a bibtex file so that we can create citations
-bibtex_bibfiles:
-  - references.bib
+# bibtex_bibfiles:
+#   - references.bib
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/SETIADEEPANSHU/audio_classification  # Online location of your book
-  path_to_book: docs  # Optional path to your book, relative to the repository root
+  url: https://github.com/SETIADEEPANSHU/audio_classification/  # Online location of your book
+  path_to_book: audio_classification/_build/html
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
@@ -38,6 +38,6 @@ html:
 
 launch_buttons:
   notebook_interface          : classic
-  binderhub_url               : "https://mybinder.org/v2/gh/SETIADEEPANSHU/audio_classification/main"
-  colab_url                   : "https://colab.research.google.com"
+  binderhub_url               : "https://mybinder.org"
+  # colab_url                   : "https://colab.research.google.com"
   thebe                       : true
