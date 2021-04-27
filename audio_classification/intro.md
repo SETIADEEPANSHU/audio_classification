@@ -33,5 +33,11 @@ Automotive where recognising sounds both inside and outside of the car can impro
 Industrial uses such as predictive maintenance
 Heart, snoring sound classification
 
+### Live Fun Neural BeatBox Demo
+
+[Neural BeatBox](https://codepen.io/setiadeepanshu/full/PrQmNP)
+
+Built with magenta.js, tensorflow.js and p5.js
+
 ```{tableofcontents}
 ```
