@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Preprocessing and Data Splitting &#8212; Audio Classification</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model Training and Evaluation" href="3%20Model%20Training%20and%20Evaluation.html" />
+    <link rel="prev" title="Data Exploration and Visualisation" href="1%20Data%20Exploration%20and%20Visualisation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo-large.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Audio Classification</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Welcome to Audio Classification Journey
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Introduction to Audio Classification
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1%20Data%20Exploration%20and%20Visualisation.html">
+   Data Exploration and Visualisation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Data Preprocessing and Data Splitting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3%20Model%20Training%20and%20Evaluation.html">
+   Model Training and Evaluation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4%20Model%20Refinement.html">
+   Model Refinement
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Video_Example_conan_or_colbert.html">
+   Real World Applications
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Notebooks/2 Data Preprocessing and Data Splitting.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/SETIADEEPANSHU/Audio_Classification_Using_CNN"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/SETIADEEPANSHU/Audio_Classification_Using_CNN/issues/new?title=Issue%20on%20page%20%2FNotebooks/2 Data Preprocessing and Data Splitting.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SETIADEEPANSHU/Audio_Classification_Using_CNN/master/v2/gh/SETIADEEPANSHU/Audio_Classification_Using_CNN/master?urlpath=tree/docs/Notebooks/2 Data Preprocessing and Data Splitting.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/drive/11LaOoTLQpmAm91Ytbk4cZa_l6ejyywoF/github/SETIADEEPANSHU/Audio_Classification_Using_CNN/blob/master/docs/Notebooks/2 Data Preprocessing and Data Splitting.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#audio-properties-that-will-require-normalising">
+   Audio properties that will require normalising
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preprocessing-stage">
+   Preprocessing stage
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sample-rate-conversion">
+     Sample rate conversion
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bit-depth">
+     Bit-depth
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#merge-audio-channels">
+     Merge audio channels
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-audio-properties-to-consider">
+     Other audio properties to consider
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-features">
+   Extract Features
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extracting-a-mfcc">
+     Extracting a MFCC
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extracting-mfcc-s-for-every-file">
+     Extracting MFCC’s for every file
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#convert-the-data-and-labels">
+   Convert the data and labels
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#split-the-dataset">
+   Split the dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#store-the-preprocessed-data">
+   Store the preprocessed data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-the-next-notebook-we-will-develop-our-model">
+   <em>
+    In the next notebook we will develop our model
+   </em>
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="data-preprocessing-and-data-splitting">
+<h1>Data Preprocessing and Data Splitting<a class="headerlink" href="#data-preprocessing-and-data-splitting" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="audio-properties-that-will-require-normalising">
+<h2>Audio properties that will require normalising<a class="headerlink" href="#audio-properties-that-will-require-normalising" title="Permalink to this headline">¶</a></h2>
+<p>Following on from the previous notebook, we identifed the following audio properties that need preprocessing to ensure consistency across the whole dataset:</p>
+<ul class="simple">
+<li><p>Audio Channels</p></li>
+<li><p>Sample rate</p></li>
+<li><p>Bit-depth</p></li>
+</ul>
+<p>We will continue to use Librosa which will be useful for the pre-processing and feature extraction.</p>
+</div>
+<div class="section" id="preprocessing-stage">
+<h2>Preprocessing stage<a class="headerlink" href="#preprocessing-stage" title="Permalink to this headline">¶</a></h2>
+<p>For much of the preprocessing we will be able to use <a class="reference external" href="https://librosa.github.io/librosa/generated/librosa.core.load.html">Librosa’s load() function.</a></p>
+<p>We will compare the outputs from Librosa against the default outputs of <a class="reference external" href="https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.io.wavfile.read.html">scipy’s wavfile library</a> using a chosen file from the dataset.</p>
+<div class="section" id="sample-rate-conversion">
+<h3>Sample rate conversion<a class="headerlink" href="#sample-rate-conversion" title="Permalink to this headline">¶</a></h3>
+<p>By default, Librosa’s load function converts the sampling rate to 22.05 KHz which we can use as our comparison level.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">librosa</span> 
+<span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">wavfile</span> <span class="k">as</span> <span class="n">wav</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/100852-0-0-0.wav&#39;</span> 
+
+<span class="n">librosa_audio</span><span class="p">,</span> <span class="n">librosa_sample_rate</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+<span class="n">scipy_sample_rate</span><span class="p">,</span> <span class="n">scipy_audio</span> <span class="o">=</span> <span class="n">wav</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original sample rate:&#39;</span><span class="p">,</span> <span class="n">scipy_sample_rate</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Librosa sample rate:&#39;</span><span class="p">,</span> <span class="n">librosa_sample_rate</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Original sample rate: 44100
+Librosa sample rate: 22050
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="bit-depth">
+<h3>Bit-depth<a class="headerlink" href="#bit-depth" title="Permalink to this headline">¶</a></h3>
+<p>Librosa’s load function will also normalise the data so it’s values range between -1 and 1. This removes the complication of the dataset having a wide range of bit-depths.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Original audio file min~max range:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scipy_audio</span><span class="p">),</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scipy_audio</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Librosa audio file min~max range:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">librosa_audio</span><span class="p">),</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">librosa_audio</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Original audio file min~max range: -23628 to 27507
+Librosa audio file min~max range: -0.50266445 to 0.74983937
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="merge-audio-channels">
+<h3>Merge audio channels<a class="headerlink" href="#merge-audio-channels" title="Permalink to this headline">¶</a></h3>
+<p>Librosa will also convert the signal to mono, meaning the number of channels will always be 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Original audio with 2 channels </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scipy_audio</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x1c178aa2b0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x1c178aa400&gt;]
+</pre></div>
+</div>
+<img alt="../_images/2 Data Preprocessing and Data Splitting_7_1.png" src="../_images/2 Data Preprocessing and Data Splitting_7_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Librosa audio with channels merged </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa_audio</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x1c18591390&gt;]
+</pre></div>
+</div>
+<img alt="../_images/2 Data Preprocessing and Data Splitting_8_1.png" src="../_images/2 Data Preprocessing and Data Splitting_8_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="other-audio-properties-to-consider">
+<h3>Other audio properties to consider<a class="headerlink" href="#other-audio-properties-to-consider" title="Permalink to this headline">¶</a></h3>
+<p>At this stage it is not yet clear whether other factors may also need to be taken into account, such as sample duration length and volume levels.</p>
+<p>We will proceed as is for the meantime and come back to address these later if it’s perceived to be effecting the validity of our target metrics.</p>
+</div>
+</div>
+<div class="section" id="extract-features">
+<h2>Extract Features<a class="headerlink" href="#extract-features" title="Permalink to this headline">¶</a></h2>
+<p>As outlined in the proposal, we will extract <a class="reference external" href="https://en.wikipedia.org/wiki/Mel-frequency_cepstrum">Mel-Frequency Cepstral Coefficients (MFCC)</a> from the the audio samples.</p>
+<p>The MFCC summarises the frequency distribution across the window size, so it is possible to analyse both the frequency and time characteristics of the sound. These audio representations will allow us to identify features for classification.</p>
+<div class="section" id="extracting-a-mfcc">
+<h3>Extracting a MFCC<a class="headerlink" href="#extracting-a-mfcc" title="Permalink to this headline">¶</a></h3>
+<p>For this we will use <a class="reference external" href="https://librosa.github.io/librosa/generated/librosa.feature.mfcc.html">Librosa’s mfcc() function</a> which generates an MFCC from time series audio data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mfccs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">librosa_audio</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">librosa_sample_rate</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mfccs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(40, 173)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This shows librosa calculated a series of 40 MFCCs over 173 frames.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">librosa.display</span>
+<span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">mfccs</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">librosa_sample_rate</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1c185c3898&gt;
+</pre></div>
+</div>
+<img alt="../_images/2 Data Preprocessing and Data Splitting_14_1.png" src="../_images/2 Data Preprocessing and Data Splitting_14_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="extracting-mfcc-s-for-every-file">
+<h3>Extracting MFCC’s for every file<a class="headerlink" href="#extracting-mfcc-s-for-every-file" title="Permalink to this headline">¶</a></h3>
+<p>We will now extract an MFCC for each audio file in the dataset and store it in a Panda Dataframe along with it’s classification label.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">extract_features</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+   
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">audio</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;kaiser_fast&#39;</span><span class="p">)</span> 
+        <span class="n">mfccs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">mfccsscaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mfccs</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error encountered while parsing file: &quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span> 
+     
+    <span class="k">return</span> <span class="n">mfccsscaled</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load various imports </span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">librosa</span>
+
+<span class="c1"># Set the path to the full UrbanSound dataset </span>
+<span class="n">fulldatasetpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/Untitled/ML_Data/Urban Sound/UrbanSound8K/audio/&#39;</span>
+
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../UrbanSound Dataset sample/metadata/UrbanSound8K.csv&#39;</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Iterate through each sound file and extract the features </span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fulldatasetpath</span><span class="p">),</span><span class="s1">&#39;fold&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;fold&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;slice_file_name&quot;</span><span class="p">]))</span>
+    
+    <span class="n">class_label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;class_name&quot;</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">class_label</span><span class="p">])</span>
+
+<span class="c1"># Convert into a Panda dataframe </span>
+<span class="n">featuresdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">,</span><span class="s1">&#39;class_label&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished feature extraction from &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">featuresdf</span><span class="p">),</span> <span class="s1">&#39; files&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished feature extraction from  8732  files
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="convert-the-data-and-labels">
+<h2>Convert the data and labels<a class="headerlink" href="#convert-the-data-and-labels" title="Permalink to this headline">¶</a></h2>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing.LabelEncoder</span></code> to encode the categorical text data into model-understandable numerical data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">to_categorical</span>
+
+<span class="c1"># Convert features and corresponding classification labels into numpy arrays</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">featuresdf</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">featuresdf</span><span class="o">.</span><span class="n">class_label</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="c1"># Encode the classification labels</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="split-the-dataset">
+<h2>Split the dataset<a class="headerlink" href="#split-the-dataset" title="Permalink to this headline">¶</a></h2>
+<p>Here we will use <code class="docutils literal notranslate"><span class="pre">sklearn.model_selection.train_test_split</span></code> to split the dataset into training and testing sets. The testing set size will be 20% and we will set a random state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split the dataset </span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span> 
+
+<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="store-the-preprocessed-data">
+<h2>Store the preprocessed data<a class="headerlink" href="#store-the-preprocessed-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### store the preprocessed data for use in the next notebook</span>
+
+<span class="o">%</span><span class="k">store</span> x_train 
+<span class="o">%</span><span class="k">store</span> x_test 
+<span class="o">%</span><span class="k">store</span> y_train 
+<span class="o">%</span><span class="k">store</span> y_test 
+<span class="o">%</span><span class="k">store</span> yy 
+<span class="o">%</span><span class="k">store</span> le
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Stored &#39;x_train&#39; (ndarray)
+Stored &#39;x_test&#39; (ndarray)
+Stored &#39;y_train&#39; (ndarray)
+Stored &#39;y_test&#39; (ndarray)
+Stored &#39;yy&#39; (ndarray)
+Stored &#39;le&#39; (LabelEncoder)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="in-the-next-notebook-we-will-develop-our-model">
+<h2><em>In the next notebook we will develop our model</em><a class="headerlink" href="#in-the-next-notebook-we-will-develop-our-model" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "SETIADEEPANSHU/Audio_Classification_Using_CNN",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="1%20Data%20Exploration%20and%20Visualisation.html" title="previous page">Data Exploration and Visualisation</a>
+    <a class='right-next' id="next-link" href="3%20Model%20Training%20and%20Evaluation.html" title="next page">Model Training and Evaluation</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Deepanshu Setia<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  None
+  </body>
+</html>

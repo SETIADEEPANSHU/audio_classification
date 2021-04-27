@@ -1,0 +1,13 @@
+# Table of content
+# Learn more at https://jupyterbook.org/customize/toc.html
+#
+
+- file: intro
+
+- part: Introduction to Audio Classification
+  chapters:
+  - file: Notebooks/1 Data Exploration and Visualisation
+  - file: Notebooks/2 Data Preprocessing and Data Splitting
+  - file: Notebooks/3 Model Training and Evaluation
+  - file: Notebooks/4 Model Refinement
+  - file: Notebooks/Video_Example_conan_or_colbert
