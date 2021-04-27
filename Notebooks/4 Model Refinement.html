@@ -1,0 +1,1173 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Refinement &#8212; Audio Classification</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Real World Applications" href="Video_Example_conan_or_colbert.html" />
+    <link rel="prev" title="Model Training and Evaluation" href="3%20Model%20Training%20and%20Evaluation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo-large.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Audio Classification</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Welcome to Audio Classification Journey
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Introduction to Audio Classification
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1%20Data%20Exploration%20and%20Visualisation.html">
+   Data Exploration and Visualisation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2%20Data%20Preprocessing%20and%20Data%20Splitting.html">
+   Data Preprocessing and Data Splitting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3%20Model%20Training%20and%20Evaluation.html">
+   Model Training and Evaluation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Model Refinement
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Video_Example_conan_or_colbert.html">
+   Real World Applications
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Notebooks/4 Model Refinement.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/SETIADEEPANSHU/Audio_Classification_Using_CNN"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/SETIADEEPANSHU/Audio_Classification_Using_CNN/issues/new?title=Issue%20on%20page%20%2FNotebooks/4 Model Refinement.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SETIADEEPANSHU/Audio_Classification_Using_CNN/master/v2/gh/SETIADEEPANSHU/Audio_Classification_Using_CNN/master?urlpath=tree/docs/Notebooks/4 Model Refinement.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/drive/11LaOoTLQpmAm91Ytbk4cZa_l6ejyywoF/github/SETIADEEPANSHU/Audio_Classification_Using_CNN/blob/master/docs/Notebooks/4 Model Refinement.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-preprocessed-data">
+   Load Preprocessed data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Model refinement
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#feature-extraction-refinement">
+     Feature Extraction refinement
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#convolutional-neural-network-cnn-model-architecture">
+   Convolutional Neural Network (CNN) model architecture
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compiling-the-model">
+   Compiling the model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training">
+   Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-the-model">
+   Test the model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predictions">
+   Predictions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validation">
+   Validation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-with-sample-data">
+     Test with sample data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#observations">
+     Observations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-audio">
+   Other audio
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Observations
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="model-refinement">
+<h1>Model Refinement<a class="headerlink" href="#model-refinement" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="load-preprocessed-data">
+<h2>Load Preprocessed data<a class="headerlink" href="#load-preprocessed-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieve the preprocessed data from previous notebook</span>
+
+<span class="o">%</span><span class="k">store</span> -r x_train 
+<span class="o">%</span><span class="k">store</span> -r x_test 
+<span class="o">%</span><span class="k">store</span> -r y_train 
+<span class="o">%</span><span class="k">store</span> -r y_test 
+<span class="o">%</span><span class="k">store</span> -r yy 
+<span class="o">%</span><span class="k">store</span> -r le
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Model refinement<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>In our inital attempt, we were able to achieve a Classification Accuracy score of:</p>
+<ul class="simple">
+<li><p>Training data Accuracy:  92.3%</p></li>
+<li><p>Testing data Accuracy:  87%</p></li>
+</ul>
+<p>We will now see if we can improve upon that score using a Convolutional Neural Network (CNN).</p>
+</div>
+<div class="section" id="feature-extraction-refinement">
+<h3>Feature Extraction refinement<a class="headerlink" href="#feature-extraction-refinement" title="Permalink to this headline">¶</a></h3>
+<p>In the prevous feature extraction stage, the MFCC vectors would vary in size for the different audio files (depending on the samples duration).</p>
+<p>However, CNNs require a fixed size for all inputs. To overcome this we will zero pad the output vectors to make them all the same size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">max_pad_len</span> <span class="o">=</span> <span class="mi">174</span>
+
+<span class="k">def</span> <span class="nf">extract_features</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+   
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">audio</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;kaiser_fast&#39;</span><span class="p">)</span> 
+        <span class="n">mfccs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">pad_width</span> <span class="o">=</span> <span class="n">max_pad_len</span> <span class="o">-</span> <span class="n">mfccs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">mfccs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">mfccs</span><span class="p">,</span> <span class="n">pad_width</span><span class="o">=</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pad_width</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">)</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error encountered while parsing file: &quot;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span> 
+     
+    <span class="k">return</span> <span class="n">mfccs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load various imports </span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">librosa</span>
+
+<span class="c1"># Set the path to the full UrbanSound dataset </span>
+<span class="n">fulldatasetpath</span> <span class="o">=</span> <span class="s1">&#39;/Volumes/Untitled/ML_Data/Urban Sound/UrbanSound8K/audio/&#39;</span>
+
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../UrbanSound Dataset sample/metadata/UrbanSound8K.csv&#39;</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Iterate through each sound file and extract the features </span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fulldatasetpath</span><span class="p">),</span><span class="s1">&#39;fold&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;fold&quot;</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;slice_file_name&quot;</span><span class="p">]))</span>
+    
+    <span class="n">class_label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;class_name&quot;</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">class_label</span><span class="p">])</span>
+
+<span class="c1"># Convert into a Panda dataframe </span>
+<span class="n">featuresdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">,</span><span class="s1">&#39;class_label&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished feature extraction from &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">featuresdf</span><span class="p">),</span> <span class="s1">&#39; files&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished feature extraction from  8732  files
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">to_categorical</span>
+
+<span class="c1"># Convert features and corresponding classification labels into numpy arrays</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">featuresdf</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">featuresdf</span><span class="o">.</span><span class="n">class_label</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="c1"># Encode the classification labels</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> 
+
+<span class="c1"># split the dataset </span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span> 
+
+<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="convolutional-neural-network-cnn-model-architecture">
+<h2>Convolutional Neural Network (CNN) model architecture<a class="headerlink" href="#convolutional-neural-network-cnn-model-architecture" title="Permalink to this headline">¶</a></h2>
+<p>We will modify our model to be a Convolutional Neural Network (CNN) again using Keras and a Tensorflow backend.</p>
+<p>Again we will use a <code class="docutils literal notranslate"><span class="pre">sequential</span></code> model, starting with a simple model architecture, consisting of four <code class="docutils literal notranslate"><span class="pre">Conv2D</span></code> convolution layers, with our final output layer being a <code class="docutils literal notranslate"><span class="pre">dense</span></code> layer.</p>
+<p>The convolution layers are designed for feature detection. It works by sliding a filter window over the input and performing a matrix multiplication and storing the result in a feature map. This operation is known as a convolution.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">filter</span></code> parameter specifies the number of nodes in each layer. Each layer will increase in size from 16, 32, 64 to 128, while the <code class="docutils literal notranslate"><span class="pre">kernel_size</span></code> parameter specifies the size of the kernel window which in this case is 2 resulting in a 2x2 filter matrix.</p>
+<p>The first layer will receive the input shape of (40, 174, 1) where 40 is the number of MFCC’s 174 is the number of frames taking padding into account and the 1 signifying that the audio is mono.</p>
+<p>The activation function we will be using for our convolutional layers is <code class="docutils literal notranslate"><span class="pre">ReLU</span></code> which is the same as our previous model. We will use a smaller <code class="docutils literal notranslate"><span class="pre">Dropout</span></code> value of 20% on our convolutional layers.</p>
+<p>Each convolutional layer has an associated pooling layer of <code class="docutils literal notranslate"><span class="pre">MaxPooling2D</span></code> type with the final convolutional layer having a <code class="docutils literal notranslate"><span class="pre">GlobalAveragePooling2D</span></code> type. The pooling layer is do reduce the dimensionality of the model (by reducing the parameters and subsquent computation requirements) which serves to shorten the training time and reduce overfitting. The Max Pooling type takes the maximum size for each window and the Global Average Pooling type takes the average which is suitable for feeding into our <code class="docutils literal notranslate"><span class="pre">dense</span></code> output layer.</p>
+<p>Our output layer will have 10 nodes (num_labels) which matches the number of possible classifications. The activation is for our output layer is <code class="docutils literal notranslate"><span class="pre">softmax</span></code>. Softmax makes the output sum up to 1 so the output can be interpreted as probabilities. The model will then make its prediction based on which option has the highest probability.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Flatten</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Convolution2D</span><span class="p">,</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">MaxPooling2D</span><span class="p">,</span> <span class="n">GlobalAveragePooling2D</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">np_utils</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span> 
+
+<span class="n">num_rows</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">num_columns</span> <span class="o">=</span> <span class="mi">174</span>
+<span class="n">num_channels</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">)</span>
+
+<span class="n">num_labels</span> <span class="o">=</span> <span class="n">yy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">filter_size</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Construct model </span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">GlobalAveragePooling2D</span><span class="p">())</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_labels</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="compiling-the-model">
+<h2>Compiling the model<a class="headerlink" href="#compiling-the-model" title="Permalink to this headline">¶</a></h2>
+<p>For compiling our model, we will use the same three parameters as the previous model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compile the model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">],</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display model architecture summary </span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="c1"># Calculate pre-training accuracy </span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pre-training accuracy: </span><span class="si">%.4f%%</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_11 (Conv2D)           (None, 39, 173, 16)       80        
+_________________________________________________________________
+max_pooling2d_11 (MaxPooling (None, 19, 86, 16)        0         
+_________________________________________________________________
+dropout_17 (Dropout)         (None, 19, 86, 16)        0         
+_________________________________________________________________
+conv2d_12 (Conv2D)           (None, 18, 85, 32)        2080      
+_________________________________________________________________
+max_pooling2d_12 (MaxPooling (None, 9, 42, 32)         0         
+_________________________________________________________________
+dropout_18 (Dropout)         (None, 9, 42, 32)         0         
+_________________________________________________________________
+conv2d_13 (Conv2D)           (None, 8, 41, 64)         8256      
+_________________________________________________________________
+max_pooling2d_13 (MaxPooling (None, 4, 20, 64)         0         
+_________________________________________________________________
+dropout_19 (Dropout)         (None, 4, 20, 64)         0         
+_________________________________________________________________
+conv2d_14 (Conv2D)           (None, 3, 19, 128)        32896     
+_________________________________________________________________
+max_pooling2d_14 (MaxPooling (None, 1, 9, 128)         0         
+_________________________________________________________________
+dropout_20 (Dropout)         (None, 1, 9, 128)         0         
+_________________________________________________________________
+global_average_pooling2d_1 ( (None, 128)               0         
+_________________________________________________________________
+dense_13 (Dense)             (None, 10)                1290      
+=================================================================
+Total params: 44,602
+Trainable params: 44,602
+Non-trainable params: 0
+_________________________________________________________________
+1747/1747 [==============================] - 9s 5ms/step
+Pre-training accuracy: 12.0206%
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<p>Here we will train the model. As training a CNN can take a sigificant amount of time, we will start with a low number of epochs and a low batch size. If we can see from the output that the model is converging, we will increase both numbers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="kn">import</span> <span class="n">ModelCheckpoint</span> 
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> 
+
+<span class="c1">#num_epochs = 12</span>
+<span class="c1">#num_batch_size = 128</span>
+
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">72</span>
+<span class="n">num_batch_size</span> <span class="o">=</span> <span class="mi">256</span>
+
+<span class="n">checkpointer</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;saved_models/weights.best.basic_cnn.hdf5&#39;</span><span class="p">,</span> 
+                               <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">num_batch_size</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpointer</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">duration</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training completed in time: &quot;</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train on 6985 samples, validate on 1747 samples
+Epoch 1/72
+6985/6985 [==============================] - 76s 11ms/step - loss: 0.2628 - acc: 0.9085 - val_loss: 0.3790 - val_acc: 0.8775
+
+Epoch 00001: val_loss improved from inf to 0.37902, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 2/72
+6985/6985 [==============================] - 73s 10ms/step - loss: 0.2660 - acc: 0.9059 - val_loss: 0.3559 - val_acc: 0.8878
+
+Epoch 00002: val_loss improved from 0.37902 to 0.35589, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 3/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2410 - acc: 0.9184 - val_loss: 0.3456 - val_acc: 0.8930
+
+Epoch 00003: val_loss improved from 0.35589 to 0.34559, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 4/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2464 - acc: 0.9101 - val_loss: 0.3377 - val_acc: 0.8941
+
+Epoch 00004: val_loss improved from 0.34559 to 0.33769, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 5/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2316 - acc: 0.9152 - val_loss: 0.3458 - val_acc: 0.8930
+
+Epoch 00005: val_loss did not improve from 0.33769
+Epoch 6/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2376 - acc: 0.9144 - val_loss: 0.3508 - val_acc: 0.8844
+
+Epoch 00006: val_loss did not improve from 0.33769
+Epoch 7/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2501 - acc: 0.9145 - val_loss: 0.3896 - val_acc: 0.8735
+
+Epoch 00007: val_loss did not improve from 0.33769
+Epoch 8/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2270 - acc: 0.9158 - val_loss: 0.3549 - val_acc: 0.8878
+
+Epoch 00008: val_loss did not improve from 0.33769
+Epoch 9/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2331 - acc: 0.9211 - val_loss: 0.3394 - val_acc: 0.8890
+
+Epoch 00009: val_loss did not improve from 0.33769
+Epoch 10/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2351 - acc: 0.9167 - val_loss: 0.3328 - val_acc: 0.8912
+
+Epoch 00010: val_loss improved from 0.33769 to 0.33276, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 11/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2269 - acc: 0.9187 - val_loss: 0.3289 - val_acc: 0.9021
+
+Epoch 00011: val_loss improved from 0.33276 to 0.32894, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 12/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2144 - acc: 0.9264 - val_loss: 0.3220 - val_acc: 0.9015
+
+Epoch 00012: val_loss improved from 0.32894 to 0.32195, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 13/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2214 - acc: 0.9237 - val_loss: 0.3807 - val_acc: 0.8867
+
+Epoch 00013: val_loss did not improve from 0.32195
+Epoch 14/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.2173 - acc: 0.9246 - val_loss: 0.3123 - val_acc: 0.9033
+
+Epoch 00014: val_loss improved from 0.32195 to 0.31233, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 15/72
+6985/6985 [==============================] - 73s 10ms/step - loss: 0.2070 - acc: 0.9270 - val_loss: 0.3089 - val_acc: 0.9027
+
+Epoch 00015: val_loss improved from 0.31233 to 0.30894, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 16/72
+6985/6985 [==============================] - 79s 11ms/step - loss: 0.2148 - acc: 0.9254 - val_loss: 0.3139 - val_acc: 0.9033
+
+Epoch 00016: val_loss did not improve from 0.30894
+Epoch 17/72
+6985/6985 [==============================] - 73s 10ms/step - loss: 0.2046 - acc: 0.9251 - val_loss: 0.3173 - val_acc: 0.9015
+
+Epoch 00017: val_loss did not improve from 0.30894
+Epoch 18/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2045 - acc: 0.9250 - val_loss: 0.3344 - val_acc: 0.8998
+
+Epoch 00018: val_loss did not improve from 0.30894
+Epoch 19/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1988 - acc: 0.9316 - val_loss: 0.3075 - val_acc: 0.9107
+
+Epoch 00019: val_loss improved from 0.30894 to 0.30752, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 20/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2026 - acc: 0.9286 - val_loss: 0.3416 - val_acc: 0.9056
+
+Epoch 00020: val_loss did not improve from 0.30752
+Epoch 21/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.2062 - acc: 0.9266 - val_loss: 0.3123 - val_acc: 0.9073
+
+Epoch 00021: val_loss did not improve from 0.30752
+Epoch 22/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1956 - acc: 0.9320 - val_loss: 0.2969 - val_acc: 0.9107
+
+Epoch 00022: val_loss improved from 0.30752 to 0.29689, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 23/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1992 - acc: 0.9297 - val_loss: 0.3282 - val_acc: 0.9061
+
+Epoch 00023: val_loss did not improve from 0.29689
+Epoch 24/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1990 - acc: 0.9298 - val_loss: 0.3500 - val_acc: 0.8981
+
+Epoch 00024: val_loss did not improve from 0.29689
+Epoch 25/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1906 - acc: 0.9359 - val_loss: 0.3025 - val_acc: 0.9113
+
+Epoch 00025: val_loss did not improve from 0.29689
+Epoch 26/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1808 - acc: 0.9369 - val_loss: 0.3063 - val_acc: 0.9067
+
+Epoch 00026: val_loss did not improve from 0.29689
+Epoch 27/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1890 - acc: 0.9369 - val_loss: 0.3290 - val_acc: 0.9033
+
+Epoch 00027: val_loss did not improve from 0.29689
+Epoch 28/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1803 - acc: 0.9360 - val_loss: 0.2824 - val_acc: 0.9107
+
+Epoch 00028: val_loss improved from 0.29689 to 0.28240, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 29/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1795 - acc: 0.9374 - val_loss: 0.4025 - val_acc: 0.8792
+
+Epoch 00029: val_loss did not improve from 0.28240
+Epoch 30/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1828 - acc: 0.9372 - val_loss: 0.3079 - val_acc: 0.9084
+
+Epoch 00030: val_loss did not improve from 0.28240
+Epoch 31/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1858 - acc: 0.9363 - val_loss: 0.3268 - val_acc: 0.8987
+
+Epoch 00031: val_loss did not improve from 0.28240
+Epoch 32/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1787 - acc: 0.9390 - val_loss: 0.3239 - val_acc: 0.9004
+
+Epoch 00032: val_loss did not improve from 0.28240
+Epoch 33/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1694 - acc: 0.9413 - val_loss: 0.3237 - val_acc: 0.9078
+
+Epoch 00033: val_loss did not improve from 0.28240
+Epoch 34/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1689 - acc: 0.9380 - val_loss: 0.3053 - val_acc: 0.9056
+
+Epoch 00034: val_loss did not improve from 0.28240
+Epoch 35/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1621 - acc: 0.9466 - val_loss: 0.3185 - val_acc: 0.9090
+
+Epoch 00035: val_loss did not improve from 0.28240
+Epoch 36/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1570 - acc: 0.9449 - val_loss: 0.2865 - val_acc: 0.9113
+
+Epoch 00036: val_loss did not improve from 0.28240
+Epoch 37/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1571 - acc: 0.9469 - val_loss: 0.3076 - val_acc: 0.9084
+
+Epoch 00037: val_loss did not improve from 0.28240
+Epoch 38/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1523 - acc: 0.9472 - val_loss: 0.3855 - val_acc: 0.8958
+
+Epoch 00038: val_loss did not improve from 0.28240
+Epoch 39/72
+6985/6985 [==============================] - 72s 10ms/step - loss: 0.1620 - acc: 0.9453 - val_loss: 0.3272 - val_acc: 0.8952
+
+Epoch 00039: val_loss did not improve from 0.28240
+Epoch 40/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1613 - acc: 0.9449 - val_loss: 0.3224 - val_acc: 0.9067
+
+Epoch 00040: val_loss did not improve from 0.28240
+Epoch 41/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1641 - acc: 0.9417 - val_loss: 0.2917 - val_acc: 0.9199
+
+Epoch 00041: val_loss did not improve from 0.28240
+Epoch 42/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1606 - acc: 0.9440 - val_loss: 0.2793 - val_acc: 0.9187
+
+Epoch 00042: val_loss improved from 0.28240 to 0.27932, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 43/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1505 - acc: 0.9476 - val_loss: 0.2989 - val_acc: 0.9084
+
+Epoch 00043: val_loss did not improve from 0.27932
+Epoch 44/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1577 - acc: 0.9432 - val_loss: 0.3483 - val_acc: 0.9056
+
+Epoch 00044: val_loss did not improve from 0.27932
+Epoch 45/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1540 - acc: 0.9475 - val_loss: 0.2879 - val_acc: 0.9170
+
+Epoch 00045: val_loss did not improve from 0.27932
+Epoch 46/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1461 - acc: 0.9490 - val_loss: 0.3188 - val_acc: 0.9113
+
+Epoch 00046: val_loss did not improve from 0.27932
+Epoch 47/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1479 - acc: 0.9472 - val_loss: 0.3203 - val_acc: 0.9073
+
+Epoch 00047: val_loss did not improve from 0.27932
+Epoch 48/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1637 - acc: 0.9450 - val_loss: 0.3045 - val_acc: 0.9050
+
+Epoch 00048: val_loss did not improve from 0.27932
+Epoch 49/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1511 - acc: 0.9473 - val_loss: 0.2745 - val_acc: 0.9256
+
+Epoch 00049: val_loss improved from 0.27932 to 0.27453, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 50/72
+6985/6985 [==============================] - 71s 10ms/step - loss: 0.1376 - acc: 0.9513 - val_loss: 0.3237 - val_acc: 0.9141
+
+Epoch 00050: val_loss did not improve from 0.27453
+Epoch 51/72
+6985/6985 [==============================] - 70s 10ms/step - loss: 0.1385 - acc: 0.9515 - val_loss: 0.3292 - val_acc: 0.9067
+
+Epoch 00051: val_loss did not improve from 0.27453
+Epoch 52/72
+6985/6985 [==============================] - 10691s 2s/step - loss: 0.1424 - acc: 0.9485 - val_loss: 0.2846 - val_acc: 0.9181
+
+Epoch 00052: val_loss did not improve from 0.27453
+Epoch 53/72
+6985/6985 [==============================] - 176s 25ms/step - loss: 0.1337 - acc: 0.9533 - val_loss: 0.2813 - val_acc: 0.9164
+
+Epoch 00053: val_loss did not improve from 0.27453
+Epoch 54/72
+6985/6985 [==============================] - 176s 25ms/step - loss: 0.1529 - acc: 0.9466 - val_loss: 0.3030 - val_acc: 0.9141
+
+Epoch 00054: val_loss did not improve from 0.27453
+Epoch 55/72
+6985/6985 [==============================] - 177s 25ms/step - loss: 0.1392 - acc: 0.9523 - val_loss: 0.2990 - val_acc: 0.9130
+
+Epoch 00055: val_loss did not improve from 0.27453
+Epoch 56/72
+6985/6985 [==============================] - 181s 26ms/step - loss: 0.1461 - acc: 0.9509 - val_loss: 0.3298 - val_acc: 0.9010
+
+Epoch 00056: val_loss did not improve from 0.27453
+Epoch 57/72
+6985/6985 [==============================] - 179s 26ms/step - loss: 0.1330 - acc: 0.9542 - val_loss: 0.3374 - val_acc: 0.9084
+
+Epoch 00057: val_loss did not improve from 0.27453
+Epoch 58/72
+6985/6985 [==============================] - 182s 26ms/step - loss: 0.1321 - acc: 0.9529 - val_loss: 0.3465 - val_acc: 0.9061
+
+Epoch 00058: val_loss did not improve from 0.27453
+Epoch 59/72
+6985/6985 [==============================] - 182s 26ms/step - loss: 0.1281 - acc: 0.9553 - val_loss: 0.2965 - val_acc: 0.9187
+
+Epoch 00059: val_loss did not improve from 0.27453
+Epoch 60/72
+6985/6985 [==============================] - 182s 26ms/step - loss: 0.1393 - acc: 0.9503 - val_loss: 0.3104 - val_acc: 0.9136
+
+Epoch 00060: val_loss did not improve from 0.27453
+Epoch 61/72
+6985/6985 [==============================] - 183s 26ms/step - loss: 0.1287 - acc: 0.9530 - val_loss: 0.2871 - val_acc: 0.9147
+
+Epoch 00061: val_loss did not improve from 0.27453
+Epoch 62/72
+6985/6985 [==============================] - 185s 26ms/step - loss: 0.1410 - acc: 0.9508 - val_loss: 0.3286 - val_acc: 0.9124
+
+Epoch 00062: val_loss did not improve from 0.27453
+Epoch 63/72
+6985/6985 [==============================] - 184s 26ms/step - loss: 0.1303 - acc: 0.9526 - val_loss: 0.3357 - val_acc: 0.9084
+
+Epoch 00063: val_loss did not improve from 0.27453
+Epoch 64/72
+6985/6985 [==============================] - 186s 27ms/step - loss: 0.1350 - acc: 0.9503 - val_loss: 0.3213 - val_acc: 0.9147
+
+Epoch 00064: val_loss did not improve from 0.27453
+Epoch 65/72
+6985/6985 [==============================] - 183s 26ms/step - loss: 0.1210 - acc: 0.9556 - val_loss: 0.2724 - val_acc: 0.9256
+
+Epoch 00065: val_loss improved from 0.27453 to 0.27239, saving model to saved_models/weights.best.basic_cnn.hdf5
+Epoch 66/72
+6985/6985 [==============================] - 184s 26ms/step - loss: 0.1216 - acc: 0.9596 - val_loss: 0.3336 - val_acc: 0.9101
+
+Epoch 00066: val_loss did not improve from 0.27239
+Epoch 67/72
+6985/6985 [==============================] - 198s 28ms/step - loss: 0.1135 - acc: 0.9583 - val_loss: 0.2843 - val_acc: 0.9227
+
+Epoch 00067: val_loss did not improve from 0.27239
+Epoch 68/72
+6985/6985 [==============================] - 265s 38ms/step - loss: 0.1245 - acc: 0.9572 - val_loss: 0.2972 - val_acc: 0.9147
+
+Epoch 00068: val_loss did not improve from 0.27239
+Epoch 69/72
+6985/6985 [==============================] - 266s 38ms/step - loss: 0.1172 - acc: 0.9599 - val_loss: 0.3116 - val_acc: 0.9204
+
+Epoch 00069: val_loss did not improve from 0.27239
+Epoch 70/72
+6985/6985 [==============================] - 265s 38ms/step - loss: 0.1213 - acc: 0.9568 - val_loss: 0.2978 - val_acc: 0.9164
+
+Epoch 00070: val_loss did not improve from 0.27239
+Epoch 71/72
+6985/6985 [==============================] - 14289s 2s/step - loss: 0.1203 - acc: 0.9581 - val_loss: 0.2878 - val_acc: 0.9164
+
+Epoch 00071: val_loss did not improve from 0.27239
+Epoch 72/72
+6985/6985 [==============================] - 92s 13ms/step - loss: 0.1147 - acc: 0.9596 - val_loss: 0.3005 - val_acc: 0.9193
+
+Epoch 00072: val_loss did not improve from 0.27239
+Training completed in time:  8:57:38.203486
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="test-the-model">
+<h2>Test the model<a class="headerlink" href="#test-the-model" title="Permalink to this headline">¶</a></h2>
+<p>Here we will review the accuracy of the model on both the training and test data sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluating the model on the training and testing set</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Accuracy: &quot;</span><span class="p">,</span> <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing Accuracy: &quot;</span><span class="p">,</span> <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy:  0.9819613457408733
+Testing Accuracy:  0.9192902116210514
+</pre></div>
+</div>
+</div>
+</div>
+<p>The Training and Testing accuracy scores are both high and an increase on our initial model. Training accuracy has increased by ~6% and Testing accuracy has increased by ~4%.</p>
+<p>There is a marginal increase in the difference between the Training and Test scores (~6% compared to ~5% previously) though the difference remains low so the model has not suffered from overfitting.</p>
+</div>
+<div class="section" id="predictions">
+<h2>Predictions<a class="headerlink" href="#predictions" title="Permalink to this headline">¶</a></h2>
+<p>Here we will modify our previous method for testing the models predictions on a specified audio .wav file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_prediction</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="n">prediction_feature</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> 
+    <span class="n">prediction_feature</span> <span class="o">=</span> <span class="n">prediction_feature</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_columns</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">)</span>
+
+    <span class="n">predicted_vector</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">prediction_feature</span><span class="p">)</span>
+    <span class="n">predicted_class</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predicted_vector</span><span class="p">)</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The predicted class is:&quot;</span><span class="p">,</span> <span class="n">predicted_class</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> 
+
+    <span class="n">predicted_proba_vector</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">prediction_feature</span><span class="p">)</span> 
+    <span class="n">predicted_proba</span> <span class="o">=</span> <span class="n">predicted_proba_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predicted_proba</span><span class="p">)):</span> 
+        <span class="n">category</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">category</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2"> : &quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">predicted_proba</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39;.32f&#39;</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="test-with-sample-data">
+<h3>Test with sample data<a class="headerlink" href="#test-with-sample-data" title="Permalink to this headline">¶</a></h3>
+<p>As before we will verify the predictions using a subsection of the sample audio files we explored in the first notebook. We expect the bulk of these to be classified correctly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Air Conditioner</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/100852-0-0-0.wav&#39;</span> 
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: air_conditioner 
+
+air_conditioner 		 :  0.90663295984268188476562500000000
+car_horn 		 :  0.00000379312382392527069896459579
+children_playing 		 :  0.00372877437621355056762695312500
+dog_bark 		 :  0.00003181818829034455120563507080
+drilling 		 :  0.00387497572228312492370605468750
+engine_idling 		 :  0.00299200275912880897521972656250
+gun_shot 		 :  0.00765613839030265808105468750000
+jackhammer 		 :  0.07329261302947998046875000000000
+siren 		 :  0.00018024632299784570932388305664
+street_music 		 :  0.00160682143177837133407592773438
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Drilling</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/103199-4-0-0.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: drilling 
+
+air_conditioner 		 :  0.00070991273969411849975585937500
+car_horn 		 :  0.00000001777174851724794280016795
+children_playing 		 :  0.00001405069633619859814643859863
+dog_bark 		 :  0.00000047111242906794359441846609
+drilling 		 :  0.99598699808120727539062500000000
+engine_idling 		 :  0.00000354658413925790227949619293
+gun_shot 		 :  0.00000003223207656333215709310025
+jackhammer 		 :  0.00052903906907886266708374023438
+siren 		 :  0.00000098340262866258854046463966
+street_music 		 :  0.00275487988255918025970458984375
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Street music </span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/101848-9-0-0.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: street_music 
+
+air_conditioner 		 :  0.00011496015213197097182273864746
+car_horn 		 :  0.00079288281267508864402770996094
+children_playing 		 :  0.01791538484394550323486328125000
+dog_bark 		 :  0.00257923710159957408905029296875
+drilling 		 :  0.00007904539961600676178932189941
+engine_idling 		 :  0.00006061193562345579266548156738
+gun_shot 		 :  0.00000000007482268277181347571059
+jackhammer 		 :  0.00000457825990451965481042861938
+siren 		 :  0.00922307930886745452880859375000
+street_music 		 :  0.96923023462295532226562500000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Car Horn </span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/100648-1-0-0.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: drilling 
+
+air_conditioner 		 :  0.00059866637457162141799926757812
+car_horn 		 :  0.26391193270683288574218750000000
+children_playing 		 :  0.00126012135297060012817382812500
+dog_bark 		 :  0.27843952178955078125000000000000
+drilling 		 :  0.34817233681678771972656250000000
+engine_idling 		 :  0.00339049054309725761413574218750
+gun_shot 		 :  0.05176293104887008666992187500000
+jackhammer 		 :  0.03859317675232887268066406250000
+siren 		 :  0.01271206419914960861206054687500
+street_music 		 :  0.00115874561015516519546508789062
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="observations">
+<h3>Observations<a class="headerlink" href="#observations" title="Permalink to this headline">¶</a></h3>
+<p>We can see that the model performs well.</p>
+<p>Interestingly, car horn was again incorrectly classifed but this time as drilling - though the per class confidence shows it was a close decision between car horn with 26% confidence and drilling at 34% confidence.</p>
+</div>
+</div>
+<div class="section" id="other-audio">
+<h2>Other audio<a class="headerlink" href="#other-audio" title="Permalink to this headline">¶</a></h2>
+<p>Again we will further validate our model using a sample of various copyright free sounds that we not part of either our test or training data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/dog_bark_1.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: dog_bark 
+
+air_conditioner 		 :  0.00053069164277985692024230957031
+car_horn 		 :  0.01807974837720394134521484375000
+children_playing 		 :  0.00958889070898294448852539062500
+dog_bark 		 :  0.84292083978652954101562500000000
+drilling 		 :  0.02251568622887134552001953125000
+engine_idling 		 :  0.00286057707853615283966064453125
+gun_shot 		 :  0.09233076870441436767578125000000
+jackhammer 		 :  0.00147349410690367221832275390625
+siren 		 :  0.00702858529984951019287109375000
+street_music 		 :  0.00267084036022424697875976562500
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/drilling_1.wav&#39;</span>
+
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: jackhammer 
+
+air_conditioner 		 :  0.07861315459012985229492187500000
+car_horn 		 :  0.00000012394852433317282702773809
+children_playing 		 :  0.00000879450726642971858382225037
+dog_bark 		 :  0.00000184070950126624666154384613
+drilling 		 :  0.00003378492328920401632785797119
+engine_idling 		 :  0.06372328102588653564453125000000
+gun_shot 		 :  0.00000011736039340348725090734661
+jackhammer 		 :  0.85761523246765136718750000000000
+siren 		 :  0.00000361508728019543923437595367
+street_music 		 :  0.00000013487000671830173814669251
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/gun_shot_1.wav&#39;</span>
+
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: gun_shot 
+
+air_conditioner 		 :  0.00000001711038777330031734891236
+car_horn 		 :  0.00000002828730849557814508443698
+children_playing 		 :  0.00001153892753791296854615211487
+dog_bark 		 :  0.00006763751298421993851661682129
+drilling 		 :  0.00002225582647952251136302947998
+engine_idling 		 :  0.00000385214798370725475251674652
+gun_shot 		 :  0.99988853931427001953125000000000
+jackhammer 		 :  0.00000000060133342749679741245927
+siren 		 :  0.00000603337139182258397340774536
+street_music 		 :  0.00000002041979207945132657187060
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Observations<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>The performance of our final model is very good and has generalised well, seeming to predict well when tested against new audio data.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "SETIADEEPANSHU/Audio_Classification_Using_CNN",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="3%20Model%20Training%20and%20Evaluation.html" title="previous page">Model Training and Evaluation</a>
+    <a class='right-next' id="next-link" href="Video_Example_conan_or_colbert.html" title="next page">Real World Applications</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Deepanshu Setia<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

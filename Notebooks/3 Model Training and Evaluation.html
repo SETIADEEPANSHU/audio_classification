@@ -1,0 +1,1220 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Training and Evaluation &#8212; Audio Classification</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model Refinement" href="4%20Model%20Refinement.html" />
+    <link rel="prev" title="Data Preprocessing and Data Splitting" href="2%20Data%20Preprocessing%20and%20Data%20Splitting.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo-large.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Audio Classification</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Welcome to Audio Classification Journey
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Introduction to Audio Classification
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1%20Data%20Exploration%20and%20Visualisation.html">
+   Data Exploration and Visualisation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2%20Data%20Preprocessing%20and%20Data%20Splitting.html">
+   Data Preprocessing and Data Splitting
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Model Training and Evaluation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4%20Model%20Refinement.html">
+   Model Refinement
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Video_Example_conan_or_colbert.html">
+   Real World Applications
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Notebooks/3 Model Training and Evaluation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/SETIADEEPANSHU/Audio_Classification_Using_CNN"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/SETIADEEPANSHU/Audio_Classification_Using_CNN/issues/new?title=Issue%20on%20page%20%2FNotebooks/3 Model Training and Evaluation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SETIADEEPANSHU/Audio_Classification_Using_CNN/master/v2/gh/SETIADEEPANSHU/Audio_Classification_Using_CNN/master?urlpath=tree/docs/Notebooks/3 Model Training and Evaluation.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/drive/11LaOoTLQpmAm91Ytbk4cZa_l6ejyywoF/github/SETIADEEPANSHU/Audio_Classification_Using_CNN/blob/master/docs/Notebooks/3 Model Training and Evaluation.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-preprocessed-data">
+   Load Preprocessed data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initial-model-architecture-mlp">
+   Initial model architecture - MLP
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compiling-the-model">
+   Compiling the model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training">
+   Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-the-model">
+   Test the model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predictions">
+   Predictions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validation">
+   Validation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-with-sample-data">
+     Test with sample data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#observations">
+     Observations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-audio">
+   Other audio
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Observations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-the-next-notebook-we-will-refine-our-model">
+   <em>
+    In the next notebook we will refine our model
+   </em>
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="model-training-and-evaluation">
+<h1>Model Training and Evaluation<a class="headerlink" href="#model-training-and-evaluation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="load-preprocessed-data">
+<h2>Load Preprocessed data<a class="headerlink" href="#load-preprocessed-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieve the preprocessed data from previous notebook</span>
+
+<span class="o">%</span><span class="k">store</span> -r x_train 
+<span class="o">%</span><span class="k">store</span> -r x_test 
+<span class="o">%</span><span class="k">store</span> -r y_train 
+<span class="o">%</span><span class="k">store</span> -r y_test 
+<span class="o">%</span><span class="k">store</span> -r yy 
+<span class="o">%</span><span class="k">store</span> -r le
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="initial-model-architecture-mlp">
+<h2>Initial model architecture - MLP<a class="headerlink" href="#initial-model-architecture-mlp" title="Permalink to this headline">¶</a></h2>
+<p>We will start with constructing a Multilayer Perceptron (MLP) Neural Network using Keras and a Tensorflow backend.</p>
+<p>Starting with a <code class="docutils literal notranslate"><span class="pre">sequential</span></code> model so we can build the model layer by layer.</p>
+<p>We will begin with a simple model architecture, consisting of three layers, an input layer, a hidden layer and an output layer. All three layers will be of the <code class="docutils literal notranslate"><span class="pre">dense</span></code> layer type which is a standard layer type that is used in many cases for neural networks.</p>
+<p>The first layer will receive the input shape. As each sample contains 40 MFCCs (or columns) we have a shape of (1x40) this means we will start with an input shape of 40.</p>
+<p>The first two layers will have 256 nodes. The activation function we will be using for our first 2 layers is the <code class="docutils literal notranslate"><span class="pre">ReLU</span></code>, or <code class="docutils literal notranslate"><span class="pre">Rectified</span> <span class="pre">Linear</span> <span class="pre">Activation</span></code>. This activation function has been proven to work well in neural networks.</p>
+<p>We will also apply a <code class="docutils literal notranslate"><span class="pre">Dropout</span></code> value of 50% on our first two layers. This will randomly exclude nodes from each update cycle which in turn results in a network that is capable of better generalisation and is less likely to overfit the training data.</p>
+<p>Our output layer will have 10 nodes (num_labels) which matches the number of possible classifications. The activation is for our output layer is <code class="docutils literal notranslate"><span class="pre">softmax</span></code>. Softmax makes the output sum up to 1 so the output can be interpreted as probabilities. The model will then make its prediction based on which option has the highest probability.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Flatten</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Convolution2D</span><span class="p">,</span> <span class="n">MaxPooling2D</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">np_utils</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span> 
+
+<span class="n">num_labels</span> <span class="o">=</span> <span class="n">yy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">filter_size</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Construct model </span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,)))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_labels</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using TensorFlow backend.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="compiling-the-model">
+<h2>Compiling the model<a class="headerlink" href="#compiling-the-model" title="Permalink to this headline">¶</a></h2>
+<p>For compiling our model, we will use the following three parameters:</p>
+<ul class="simple">
+<li><p>Loss function - we will use <code class="docutils literal notranslate"><span class="pre">categorical_crossentropy</span></code>. This is the most common choice for classification. A lower score indicates that the model is performing better.</p></li>
+<li><p>Metrics - we will use the <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> metric which will allow us to view the accuracy score on the validation data when we train the model.</p></li>
+<li><p>Optimizer - here we will use <code class="docutils literal notranslate"><span class="pre">adam</span></code> which is a generally good optimizer for many use cases.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compile the model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">],</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display model architecture summary </span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="c1"># Calculate pre-training accuracy </span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pre-training accuracy: </span><span class="si">%.4f%%</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_1 (Dense)              (None, 256)               10496     
+_________________________________________________________________
+activation_1 (Activation)    (None, 256)               0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 256)               0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 256)               65792     
+_________________________________________________________________
+activation_2 (Activation)    (None, 256)               0         
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 256)               0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 10)                2570      
+_________________________________________________________________
+activation_3 (Activation)    (None, 10)                0         
+=================================================================
+Total params: 78,858
+Trainable params: 78,858
+Non-trainable params: 0
+_________________________________________________________________
+Pre-training accuracy: 11.5627%
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
+<p>Here we will train the model.</p>
+<p>We will start with 100 epochs which is the number of times the model will cycle through the data. The model will improve on each cycle until it reaches a certain point.</p>
+<p>We will also start with a low batch size, as having a large batch size can reduce the generalisation ability of the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="kn">import</span> <span class="n">ModelCheckpoint</span> 
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> 
+
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">num_batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="n">checkpointer</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;saved_models/weights.best.basic_mlp.hdf5&#39;</span><span class="p">,</span> 
+                               <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">num_batch_size</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpointer</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">duration</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training completed in time: &quot;</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train on 6985 samples, validate on 1747 samples
+Epoch 1/100
+6985/6985 [==============================] - 4s 583us/step - loss: 11.1227 - acc: 0.2165 - val_loss: 6.8835 - val_acc: 0.3526
+
+Epoch 00001: val_loss improved from inf to 6.88353, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 2/100
+6985/6985 [==============================] - 2s 352us/step - loss: 4.8051 - acc: 0.3087 - val_loss: 1.8028 - val_acc: 0.4139
+
+Epoch 00002: val_loss improved from 6.88353 to 1.80277, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 3/100
+6985/6985 [==============================] - 2s 336us/step - loss: 1.9797 - acc: 0.3576 - val_loss: 1.6131 - val_acc: 0.5243
+
+Epoch 00003: val_loss improved from 1.80277 to 1.61305, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 4/100
+6985/6985 [==============================] - 2s 335us/step - loss: 1.6974 - acc: 0.4283 - val_loss: 1.3788 - val_acc: 0.5736
+
+Epoch 00004: val_loss improved from 1.61305 to 1.37876, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 5/100
+6985/6985 [==============================] - 2s 339us/step - loss: 1.5283 - acc: 0.4769 - val_loss: 1.2597 - val_acc: 0.6033
+
+Epoch 00005: val_loss improved from 1.37876 to 1.25972, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 6/100
+6985/6985 [==============================] - 2s 340us/step - loss: 1.4293 - acc: 0.5215 - val_loss: 1.1548 - val_acc: 0.6485
+
+Epoch 00006: val_loss improved from 1.25972 to 1.15475, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 7/100
+6985/6985 [==============================] - 2s 350us/step - loss: 1.3435 - acc: 0.5509 - val_loss: 1.1064 - val_acc: 0.6611
+
+Epoch 00007: val_loss improved from 1.15475 to 1.10643, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 8/100
+6985/6985 [==============================] - 3s 362us/step - loss: 1.2510 - acc: 0.5781 - val_loss: 1.0391 - val_acc: 0.6823
+
+Epoch 00008: val_loss improved from 1.10643 to 1.03908, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 9/100
+6985/6985 [==============================] - 3s 374us/step - loss: 1.2365 - acc: 0.5778 - val_loss: 1.0108 - val_acc: 0.6754
+
+Epoch 00009: val_loss improved from 1.03908 to 1.01082, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 10/100
+6985/6985 [==============================] - 3s 361us/step - loss: 1.1524 - acc: 0.6030 - val_loss: 0.9651 - val_acc: 0.6886
+
+Epoch 00010: val_loss improved from 1.01082 to 0.96510, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 11/100
+6985/6985 [==============================] - 2s 354us/step - loss: 1.1274 - acc: 0.6156 - val_loss: 0.9360 - val_acc: 0.6903
+
+Epoch 00011: val_loss improved from 0.96510 to 0.93600, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 12/100
+6985/6985 [==============================] - 2s 344us/step - loss: 1.0735 - acc: 0.6265 - val_loss: 0.8927 - val_acc: 0.7281
+
+Epoch 00012: val_loss improved from 0.93600 to 0.89269, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 13/100
+6985/6985 [==============================] - 2s 350us/step - loss: 1.0516 - acc: 0.6389 - val_loss: 0.8353 - val_acc: 0.7230
+
+Epoch 00013: val_loss improved from 0.89269 to 0.83531, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 14/100
+6985/6985 [==============================] - 2s 353us/step - loss: 1.0339 - acc: 0.6465 - val_loss: 0.8109 - val_acc: 0.7321
+
+Epoch 00014: val_loss improved from 0.83531 to 0.81090, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 15/100
+6985/6985 [==============================] - 2s 355us/step - loss: 0.9959 - acc: 0.6547 - val_loss: 0.8110 - val_acc: 0.7476
+
+Epoch 00015: val_loss did not improve from 0.81090
+Epoch 16/100
+6985/6985 [==============================] - 2s 345us/step - loss: 0.9613 - acc: 0.6687 - val_loss: 0.7552 - val_acc: 0.7590
+
+Epoch 00016: val_loss improved from 0.81090 to 0.75516, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 17/100
+6985/6985 [==============================] - 2s 349us/step - loss: 0.9541 - acc: 0.6797 - val_loss: 0.7335 - val_acc: 0.7676
+
+Epoch 00017: val_loss improved from 0.75516 to 0.73350, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 18/100
+6985/6985 [==============================] - 2s 354us/step - loss: 0.9186 - acc: 0.6902 - val_loss: 0.7308 - val_acc: 0.7607
+
+Epoch 00018: val_loss improved from 0.73350 to 0.73077, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 19/100
+6985/6985 [==============================] - 2s 353us/step - loss: 0.8931 - acc: 0.6959 - val_loss: 0.7040 - val_acc: 0.7813
+
+Epoch 00019: val_loss improved from 0.73077 to 0.70403, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 20/100
+6985/6985 [==============================] - 3s 361us/step - loss: 0.8665 - acc: 0.7078 - val_loss: 0.6615 - val_acc: 0.8002
+
+Epoch 00020: val_loss improved from 0.70403 to 0.66146, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 21/100
+6985/6985 [==============================] - 3s 358us/step - loss: 0.8527 - acc: 0.7114 - val_loss: 0.6488 - val_acc: 0.8048
+
+Epoch 00021: val_loss improved from 0.66146 to 0.64877, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 22/100
+6985/6985 [==============================] - 2s 348us/step - loss: 0.8578 - acc: 0.7148 - val_loss: 0.6610 - val_acc: 0.7956
+
+Epoch 00022: val_loss did not improve from 0.64877
+Epoch 23/100
+6985/6985 [==============================] - 2s 350us/step - loss: 0.8290 - acc: 0.7137 - val_loss: 0.6494 - val_acc: 0.8077
+
+Epoch 00023: val_loss did not improve from 0.64877
+Epoch 24/100
+6985/6985 [==============================] - 3s 369us/step - loss: 0.8144 - acc: 0.7236 - val_loss: 0.6361 - val_acc: 0.8031
+
+Epoch 00024: val_loss improved from 0.64877 to 0.63609, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 25/100
+6985/6985 [==============================] - 3s 364us/step - loss: 0.8250 - acc: 0.7168 - val_loss: 0.6198 - val_acc: 0.8122
+
+Epoch 00025: val_loss improved from 0.63609 to 0.61980, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 26/100
+6985/6985 [==============================] - 3s 372us/step - loss: 0.8066 - acc: 0.7251 - val_loss: 0.6066 - val_acc: 0.8191
+
+Epoch 00026: val_loss improved from 0.61980 to 0.60664, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 27/100
+6985/6985 [==============================] - 2s 356us/step - loss: 0.7804 - acc: 0.7403 - val_loss: 0.5878 - val_acc: 0.8128
+
+Epoch 00027: val_loss improved from 0.60664 to 0.58775, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 28/100
+6985/6985 [==============================] - 3s 367us/step - loss: 0.7838 - acc: 0.7307 - val_loss: 0.5887 - val_acc: 0.8197
+
+Epoch 00028: val_loss did not improve from 0.58775
+Epoch 29/100
+6985/6985 [==============================] - 3s 371us/step - loss: 0.7706 - acc: 0.7373 - val_loss: 0.5608 - val_acc: 0.8237
+
+Epoch 00029: val_loss improved from 0.58775 to 0.56081, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 30/100
+6985/6985 [==============================] - 2s 342us/step - loss: 0.7481 - acc: 0.7396 - val_loss: 0.5763 - val_acc: 0.8220
+
+Epoch 00030: val_loss did not improve from 0.56081
+Epoch 31/100
+6985/6985 [==============================] - 2s 358us/step - loss: 0.7472 - acc: 0.7459 - val_loss: 0.5722 - val_acc: 0.8197
+
+Epoch 00031: val_loss did not improve from 0.56081
+Epoch 32/100
+6985/6985 [==============================] - 3s 367us/step - loss: 0.7365 - acc: 0.7476 - val_loss: 0.5668 - val_acc: 0.8180
+
+Epoch 00032: val_loss did not improve from 0.56081
+Epoch 33/100
+6985/6985 [==============================] - 3s 361us/step - loss: 0.7410 - acc: 0.7492 - val_loss: 0.5643 - val_acc: 0.8191
+
+Epoch 00033: val_loss did not improve from 0.56081
+Epoch 34/100
+6985/6985 [==============================] - 2s 349us/step - loss: 0.7344 - acc: 0.7472 - val_loss: 0.5609 - val_acc: 0.8288
+
+Epoch 00034: val_loss did not improve from 0.56081
+Epoch 35/100
+6985/6985 [==============================] - 3s 368us/step - loss: 0.7187 - acc: 0.7563 - val_loss: 0.5607 - val_acc: 0.8208
+
+Epoch 00035: val_loss improved from 0.56081 to 0.56067, saving model to saved_models/weights.best.basic_mlp.hdf5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 36/100
+6985/6985 [==============================] - 2s 343us/step - loss: 0.7177 - acc: 0.7556 - val_loss: 0.5344 - val_acc: 0.8414
+
+Epoch 00036: val_loss improved from 0.56067 to 0.53436, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 37/100
+6985/6985 [==============================] - 2s 329us/step - loss: 0.6918 - acc: 0.7609 - val_loss: 0.5245 - val_acc: 0.8380
+
+Epoch 00037: val_loss improved from 0.53436 to 0.52452, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 38/100
+6985/6985 [==============================] - 2s 330us/step - loss: 0.7010 - acc: 0.7543 - val_loss: 0.5409 - val_acc: 0.8323
+
+Epoch 00038: val_loss did not improve from 0.52452
+Epoch 39/100
+6985/6985 [==============================] - 2s 349us/step - loss: 0.6888 - acc: 0.7611 - val_loss: 0.5411 - val_acc: 0.8271
+
+Epoch 00039: val_loss did not improve from 0.52452
+Epoch 40/100
+6985/6985 [==============================] - 2s 352us/step - loss: 0.6761 - acc: 0.7678 - val_loss: 0.5462 - val_acc: 0.8220
+
+Epoch 00040: val_loss did not improve from 0.52452
+Epoch 41/100
+6985/6985 [==============================] - 2s 344us/step - loss: 0.6940 - acc: 0.7641 - val_loss: 0.5248 - val_acc: 0.8260
+
+Epoch 00041: val_loss did not improve from 0.52452
+Epoch 42/100
+6985/6985 [==============================] - 2s 344us/step - loss: 0.7008 - acc: 0.7644 - val_loss: 0.5202 - val_acc: 0.8397
+
+Epoch 00042: val_loss improved from 0.52452 to 0.52018, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 43/100
+6985/6985 [==============================] - 2s 340us/step - loss: 0.6817 - acc: 0.7655 - val_loss: 0.5340 - val_acc: 0.8357
+
+Epoch 00043: val_loss did not improve from 0.52018
+Epoch 44/100
+6985/6985 [==============================] - 2s 350us/step - loss: 0.6772 - acc: 0.7694 - val_loss: 0.5314 - val_acc: 0.8397
+
+Epoch 00044: val_loss did not improve from 0.52018
+Epoch 45/100
+6985/6985 [==============================] - 2s 339us/step - loss: 0.6768 - acc: 0.7712 - val_loss: 0.5035 - val_acc: 0.8523
+
+Epoch 00045: val_loss improved from 0.52018 to 0.50350, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 46/100
+6985/6985 [==============================] - 2s 336us/step - loss: 0.6785 - acc: 0.7682 - val_loss: 0.5208 - val_acc: 0.8340
+
+Epoch 00046: val_loss did not improve from 0.50350
+Epoch 47/100
+6985/6985 [==============================] - 2s 330us/step - loss: 0.6712 - acc: 0.7754 - val_loss: 0.4978 - val_acc: 0.8477
+
+Epoch 00047: val_loss improved from 0.50350 to 0.49784, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 48/100
+6985/6985 [==============================] - 2s 332us/step - loss: 0.6736 - acc: 0.7701 - val_loss: 0.4905 - val_acc: 0.8426
+
+Epoch 00048: val_loss improved from 0.49784 to 0.49050, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 49/100
+6985/6985 [==============================] - 2s 335us/step - loss: 0.6382 - acc: 0.7787 - val_loss: 0.4851 - val_acc: 0.8477
+
+Epoch 00049: val_loss improved from 0.49050 to 0.48515, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 50/100
+6985/6985 [==============================] - 2s 331us/step - loss: 0.6423 - acc: 0.7853 - val_loss: 0.5047 - val_acc: 0.8294
+
+Epoch 00050: val_loss did not improve from 0.48515
+Epoch 51/100
+6985/6985 [==============================] - 2s 339us/step - loss: 0.6426 - acc: 0.7847 - val_loss: 0.4914 - val_acc: 0.8454
+
+Epoch 00051: val_loss did not improve from 0.48515
+Epoch 52/100
+6985/6985 [==============================] - 2s 338us/step - loss: 0.6233 - acc: 0.7847 - val_loss: 0.4822 - val_acc: 0.8546
+
+Epoch 00052: val_loss improved from 0.48515 to 0.48218, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 53/100
+6985/6985 [==============================] - 2s 345us/step - loss: 0.6257 - acc: 0.7851 - val_loss: 0.4939 - val_acc: 0.8443
+
+Epoch 00053: val_loss did not improve from 0.48218
+Epoch 54/100
+6985/6985 [==============================] - 2s 346us/step - loss: 0.6243 - acc: 0.7884 - val_loss: 0.4835 - val_acc: 0.8506
+
+Epoch 00054: val_loss did not improve from 0.48218
+Epoch 55/100
+6985/6985 [==============================] - 2s 351us/step - loss: 0.6167 - acc: 0.7871 - val_loss: 0.4682 - val_acc: 0.8552
+
+Epoch 00055: val_loss improved from 0.48218 to 0.46823, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 56/100
+6985/6985 [==============================] - 2s 350us/step - loss: 0.6204 - acc: 0.7875 - val_loss: 0.4837 - val_acc: 0.8558
+
+Epoch 00056: val_loss did not improve from 0.46823
+Epoch 57/100
+6985/6985 [==============================] - 2s 353us/step - loss: 0.6257 - acc: 0.7790 - val_loss: 0.4628 - val_acc: 0.8592
+
+Epoch 00057: val_loss improved from 0.46823 to 0.46283, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 58/100
+6985/6985 [==============================] - 2s 351us/step - loss: 0.6344 - acc: 0.7797 - val_loss: 0.4570 - val_acc: 0.8626
+
+Epoch 00058: val_loss improved from 0.46283 to 0.45701, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 59/100
+6985/6985 [==============================] - 2s 351us/step - loss: 0.6024 - acc: 0.7931 - val_loss: 0.4806 - val_acc: 0.8489
+
+Epoch 00059: val_loss did not improve from 0.45701
+Epoch 60/100
+6985/6985 [==============================] - 2s 352us/step - loss: 0.6021 - acc: 0.7970 - val_loss: 0.4691 - val_acc: 0.8701
+
+Epoch 00060: val_loss did not improve from 0.45701
+Epoch 61/100
+6985/6985 [==============================] - 2s 350us/step - loss: 0.5985 - acc: 0.7936 - val_loss: 0.4859 - val_acc: 0.8506
+
+Epoch 00061: val_loss did not improve from 0.45701
+Epoch 62/100
+6985/6985 [==============================] - 2s 347us/step - loss: 0.5855 - acc: 0.7974 - val_loss: 0.4725 - val_acc: 0.8580
+
+Epoch 00062: val_loss did not improve from 0.45701
+Epoch 63/100
+6985/6985 [==============================] - 3s 365us/step - loss: 0.6021 - acc: 0.7885 - val_loss: 0.4705 - val_acc: 0.8512
+
+Epoch 00063: val_loss did not improve from 0.45701
+Epoch 64/100
+6985/6985 [==============================] - 2s 352us/step - loss: 0.5974 - acc: 0.7960 - val_loss: 0.4710 - val_acc: 0.8535
+
+Epoch 00064: val_loss did not improve from 0.45701
+Epoch 65/100
+6985/6985 [==============================] - 2s 350us/step - loss: 0.6117 - acc: 0.7914 - val_loss: 0.4814 - val_acc: 0.8558
+
+Epoch 00065: val_loss did not improve from 0.45701
+Epoch 66/100
+6985/6985 [==============================] - 2s 351us/step - loss: 0.5910 - acc: 0.8013 - val_loss: 0.4649 - val_acc: 0.8592
+
+Epoch 00066: val_loss did not improve from 0.45701
+Epoch 67/100
+6985/6985 [==============================] - 3s 367us/step - loss: 0.6112 - acc: 0.7976 - val_loss: 0.4594 - val_acc: 0.8598
+
+Epoch 00067: val_loss did not improve from 0.45701
+Epoch 68/100
+6985/6985 [==============================] - 3s 371us/step - loss: 0.5852 - acc: 0.8016 - val_loss: 0.4869 - val_acc: 0.8443
+
+Epoch 00068: val_loss did not improve from 0.45701
+Epoch 69/100
+6985/6985 [==============================] - 3s 370us/step - loss: 0.5918 - acc: 0.7999 - val_loss: 0.4709 - val_acc: 0.8529
+
+Epoch 00069: val_loss did not improve from 0.45701
+Epoch 70/100
+6985/6985 [==============================] - 2s 354us/step - loss: 0.5636 - acc: 0.8133 - val_loss: 0.4491 - val_acc: 0.8649
+
+Epoch 00070: val_loss improved from 0.45701 to 0.44906, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 71/100
+6985/6985 [==============================] - 2s 348us/step - loss: 0.6037 - acc: 0.8010 - val_loss: 0.4600 - val_acc: 0.8638
+
+Epoch 00071: val_loss did not improve from 0.44906
+Epoch 72/100
+6985/6985 [==============================] - 3s 367us/step - loss: 0.5755 - acc: 0.8040 - val_loss: 0.4379 - val_acc: 0.8695
+
+Epoch 00072: val_loss improved from 0.44906 to 0.43790, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 73/100
+6985/6985 [==============================] - 3s 364us/step - loss: 0.5781 - acc: 0.8020 - val_loss: 0.4415 - val_acc: 0.8575
+
+Epoch 00073: val_loss did not improve from 0.43790
+Epoch 74/100
+6985/6985 [==============================] - 3s 364us/step - loss: 0.5757 - acc: 0.8064 - val_loss: 0.4409 - val_acc: 0.8649
+
+Epoch 00074: val_loss did not improve from 0.43790
+Epoch 75/100
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6985/6985 [==============================] - 2s 353us/step - loss: 0.5687 - acc: 0.8145 - val_loss: 0.4505 - val_acc: 0.8741
+
+Epoch 00075: val_loss did not improve from 0.43790
+Epoch 76/100
+6985/6985 [==============================] - 2s 351us/step - loss: 0.5500 - acc: 0.8143 - val_loss: 0.4285 - val_acc: 0.8672
+
+Epoch 00076: val_loss improved from 0.43790 to 0.42855, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 77/100
+6985/6985 [==============================] - 3s 418us/step - loss: 0.5870 - acc: 0.7994 - val_loss: 0.4398 - val_acc: 0.8712
+
+Epoch 00077: val_loss did not improve from 0.42855
+Epoch 78/100
+6985/6985 [==============================] - 3s 395us/step - loss: 0.5718 - acc: 0.8056 - val_loss: 0.4423 - val_acc: 0.8706
+
+Epoch 00078: val_loss did not improve from 0.42855
+Epoch 79/100
+6985/6985 [==============================] - 3s 359us/step - loss: 0.5768 - acc: 0.8057 - val_loss: 0.4479 - val_acc: 0.8706
+
+Epoch 00079: val_loss did not improve from 0.42855
+Epoch 80/100
+6985/6985 [==============================] - 2s 338us/step - loss: 0.5719 - acc: 0.8070 - val_loss: 0.4340 - val_acc: 0.8701
+
+Epoch 00080: val_loss did not improve from 0.42855
+Epoch 81/100
+6985/6985 [==============================] - 2s 347us/step - loss: 0.5600 - acc: 0.8122 - val_loss: 0.4380 - val_acc: 0.8632
+
+Epoch 00081: val_loss did not improve from 0.42855
+Epoch 82/100
+6985/6985 [==============================] - 3s 366us/step - loss: 0.5541 - acc: 0.8149 - val_loss: 0.4205 - val_acc: 0.8729
+
+Epoch 00082: val_loss improved from 0.42855 to 0.42049, saving model to saved_models/weights.best.basic_mlp.hdf5
+Epoch 83/100
+6985/6985 [==============================] - 3s 386us/step - loss: 0.5528 - acc: 0.8107 - val_loss: 0.4254 - val_acc: 0.8792
+
+Epoch 00083: val_loss did not improve from 0.42049
+Epoch 84/100
+6985/6985 [==============================] - 3s 480us/step - loss: 0.5465 - acc: 0.8135 - val_loss: 0.4517 - val_acc: 0.8632
+
+Epoch 00084: val_loss did not improve from 0.42049
+Epoch 85/100
+6985/6985 [==============================] - 3s 443us/step - loss: 0.5402 - acc: 0.8147 - val_loss: 0.4400 - val_acc: 0.8724
+
+Epoch 00085: val_loss did not improve from 0.42049
+Epoch 86/100
+6985/6985 [==============================] - 3s 478us/step - loss: 0.5569 - acc: 0.8097 - val_loss: 0.4488 - val_acc: 0.8626
+
+Epoch 00086: val_loss did not improve from 0.42049
+Epoch 87/100
+6985/6985 [==============================] - 3s 413us/step - loss: 0.5529 - acc: 0.8127 - val_loss: 0.4429 - val_acc: 0.8620
+
+Epoch 00087: val_loss did not improve from 0.42049
+Epoch 88/100
+6985/6985 [==============================] - 3s 396us/step - loss: 0.5717 - acc: 0.8125 - val_loss: 0.4551 - val_acc: 0.8649
+
+Epoch 00088: val_loss did not improve from 0.42049
+Epoch 89/100
+6985/6985 [==============================] - 3s 383us/step - loss: 0.5520 - acc: 0.8188 - val_loss: 0.4413 - val_acc: 0.8769
+
+Epoch 00089: val_loss did not improve from 0.42049
+Epoch 90/100
+6985/6985 [==============================] - 3s 365us/step - loss: 0.5566 - acc: 0.8106 - val_loss: 0.4512 - val_acc: 0.8626
+
+Epoch 00090: val_loss did not improve from 0.42049
+Epoch 91/100
+6985/6985 [==============================] - 3s 361us/step - loss: 0.5526 - acc: 0.8125 - val_loss: 0.4453 - val_acc: 0.8638
+
+Epoch 00091: val_loss did not improve from 0.42049
+Epoch 92/100
+6985/6985 [==============================] - 3s 384us/step - loss: 0.5487 - acc: 0.8110 - val_loss: 0.4290 - val_acc: 0.8735
+
+Epoch 00092: val_loss did not improve from 0.42049
+Epoch 93/100
+6985/6985 [==============================] - 3s 365us/step - loss: 0.5279 - acc: 0.8245 - val_loss: 0.4223 - val_acc: 0.8724
+
+Epoch 00093: val_loss did not improve from 0.42049
+Epoch 94/100
+6985/6985 [==============================] - 3s 365us/step - loss: 0.5412 - acc: 0.8219 - val_loss: 0.4317 - val_acc: 0.8804
+
+Epoch 00094: val_loss did not improve from 0.42049
+Epoch 95/100
+6985/6985 [==============================] - 3s 376us/step - loss: 0.5393 - acc: 0.8210 - val_loss: 0.4422 - val_acc: 0.8643
+
+Epoch 00095: val_loss did not improve from 0.42049
+Epoch 96/100
+6985/6985 [==============================] - 3s 376us/step - loss: 0.5327 - acc: 0.8203 - val_loss: 0.4266 - val_acc: 0.8689
+
+Epoch 00096: val_loss did not improve from 0.42049
+Epoch 97/100
+6985/6985 [==============================] - 2s 334us/step - loss: 0.5525 - acc: 0.8125 - val_loss: 0.4370 - val_acc: 0.8626
+
+Epoch 00097: val_loss did not improve from 0.42049
+Epoch 98/100
+6985/6985 [==============================] - 2s 329us/step - loss: 0.5246 - acc: 0.8241 - val_loss: 0.4338 - val_acc: 0.8620
+
+Epoch 00098: val_loss did not improve from 0.42049
+Epoch 99/100
+6985/6985 [==============================] - 2s 347us/step - loss: 0.5346 - acc: 0.8169 - val_loss: 0.4457 - val_acc: 0.8586
+
+Epoch 00099: val_loss did not improve from 0.42049
+Epoch 100/100
+6985/6985 [==============================] - 2s 351us/step - loss: 0.5413 - acc: 0.8153 - val_loss: 0.4306 - val_acc: 0.8764
+
+Epoch 00100: val_loss did not improve from 0.42049
+Training completed in time:  0:04:15.582298
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="test-the-model">
+<h2>Test the model<a class="headerlink" href="#test-the-model" title="Permalink to this headline">¶</a></h2>
+<p>Here we will review the accuracy of the model on both the training and test data sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluating the model on the training and testing set</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Accuracy: &quot;</span><span class="p">,</span> <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing Accuracy: &quot;</span><span class="p">,</span> <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy:  0.9252684323550465
+Testing Accuracy:  0.8763594734511787
+</pre></div>
+</div>
+</div>
+</div>
+<p>The initial Training and Testing accuracy scores are quite high. As there is not a great difference between the Training and Test scores (~5%) this suggests that the model has not suffered from overfitting.</p>
+</div>
+<div class="section" id="predictions">
+<h2>Predictions<a class="headerlink" href="#predictions" title="Permalink to this headline">¶</a></h2>
+<p>Here we will build a method which will allow us to test the models predictions on a specified audio .wav file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">librosa</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+
+<span class="k">def</span> <span class="nf">extract_feature</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+   
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">audio_data</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;kaiser_fast&#39;</span><span class="p">)</span> 
+        <span class="n">mfccs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">audio_data</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">mfccsscaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mfccs</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error encountered while parsing file: &quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mfccsscaled</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_prediction</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="n">prediction_feature</span> <span class="o">=</span> <span class="n">extract_feature</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> 
+
+    <span class="n">predicted_vector</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">prediction_feature</span><span class="p">)</span>
+    <span class="n">predicted_class</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predicted_vector</span><span class="p">)</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The predicted class is:&quot;</span><span class="p">,</span> <span class="n">predicted_class</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> 
+
+    <span class="n">predicted_proba_vector</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">prediction_feature</span><span class="p">)</span> 
+    <span class="n">predicted_proba</span> <span class="o">=</span> <span class="n">predicted_proba_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predicted_proba</span><span class="p">)):</span> 
+        <span class="n">category</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">category</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2"> : &quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">predicted_proba</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s1">&#39;.32f&#39;</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="test-with-sample-data">
+<h3>Test with sample data<a class="headerlink" href="#test-with-sample-data" title="Permalink to this headline">¶</a></h3>
+<p>Initial sainity check to verify the predictions using a subsection of the sample audio files we explored in the first notebook. We expect the bulk of these to be classified correctly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Air Conditioner</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/100852-0-0-0.wav&#39;</span> 
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: air_conditioner 
+
+air_conditioner 		 :  0.99989426136016845703125000000000
+car_horn 		 :  0.00000715439318810240365564823151
+children_playing 		 :  0.00001791530303307808935642242432
+dog_bark 		 :  0.00000025655413082859013229608536
+drilling 		 :  0.00000283992426375334616750478745
+engine_idling 		 :  0.00005887898078071884810924530029
+gun_shot 		 :  0.00000001620782441591472888831049
+jackhammer 		 :  0.00000035662964137372910045087337
+siren 		 :  0.00000004348472515403045690618455
+street_music 		 :  0.00001830780820455402135848999023
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Drilling</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/103199-4-0-0.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: drilling 
+
+air_conditioner 		 :  0.00000000003295356001964400149973
+car_horn 		 :  0.00000000308959258177310402970761
+children_playing 		 :  0.00002208830665040295571088790894
+dog_bark 		 :  0.00000067401481373963179066777229
+drilling 		 :  0.99972504377365112304687500000000
+engine_idling 		 :  0.00000000002312424904338250541969
+gun_shot 		 :  0.00000014346949228638550266623497
+jackhammer 		 :  0.00000000029780389265710027757450
+siren 		 :  0.00000000156893398273183493074612
+street_music 		 :  0.00025209947489202022552490234375
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Street music </span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/101848-9-0-0.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: street_music 
+
+air_conditioner 		 :  0.09999072551727294921875000000000
+car_horn 		 :  0.00305506144650280475616455078125
+children_playing 		 :  0.09950152784585952758789062500000
+dog_bark 		 :  0.02582867257297039031982421875000
+drilling 		 :  0.00509325042366981506347656250000
+engine_idling 		 :  0.00916280318051576614379882812500
+gun_shot 		 :  0.00549275847151875495910644531250
+jackhammer 		 :  0.03270008042454719543457031250000
+siren 		 :  0.00361734302714467048645019531250
+street_music 		 :  0.71555775403976440429687500000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class: Car Horn </span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../UrbanSound Dataset sample/audio/100648-1-0-0.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: car_horn 
+
+air_conditioner 		 :  0.00188611494377255439758300781250
+car_horn 		 :  0.68632853031158447265625000000000
+children_playing 		 :  0.01224335655570030212402343750000
+dog_bark 		 :  0.16461659967899322509765625000000
+drilling 		 :  0.05645351111888885498046875000000
+engine_idling 		 :  0.00212736334651708602905273437500
+gun_shot 		 :  0.00211420282721519470214843750000
+jackhammer 		 :  0.00372551172040402889251708984375
+siren 		 :  0.00587591761723160743713378906250
+street_music 		 :  0.06462877988815307617187500000000
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="observations">
+<h3>Observations<a class="headerlink" href="#observations" title="Permalink to this headline">¶</a></h3>
+<p>From this brief sanity check the model seems to predict well. One errror was observed whereby a car horn was incorrectly classifed as a dog bark.</p>
+<p>We can see from the per class confidence that this was quite a low score (43%). This allows follows our early observation that a dog bark and car horn are similar in spectral shape.</p>
+</div>
+</div>
+<div class="section" id="other-audio">
+<h2>Other audio<a class="headerlink" href="#other-audio" title="Permalink to this headline">¶</a></h2>
+<p>Here we will use a sample of various copyright free sounds that we not part of either our test or training data to further validate our model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/dog_bark_1.wav&#39;</span>
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: dog_bark 
+
+air_conditioner 		 :  0.00038618501275777816772460937500
+car_horn 		 :  0.00915508810430765151977539062500
+children_playing 		 :  0.06478454917669296264648437500000
+dog_bark 		 :  0.71007812023162841796875000000000
+drilling 		 :  0.02283692173659801483154296875000
+engine_idling 		 :  0.00240809586830437183380126953125
+gun_shot 		 :  0.10433794558048248291015625000000
+jackhammer 		 :  0.00001514166433480568230152130127
+siren 		 :  0.01288078445941209793090820312500
+street_music 		 :  0.07311715185642242431640625000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/drilling_1.wav&#39;</span>
+
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: drilling 
+
+air_conditioner 		 :  0.32110649347305297851562500000000
+car_horn 		 :  0.00000022923920539597020251676440
+children_playing 		 :  0.00001040843835653504356741905212
+dog_bark 		 :  0.00000026054382828988309483975172
+drilling 		 :  0.66649377346038818359375000000000
+engine_idling 		 :  0.00000000133662025891823077472509
+gun_shot 		 :  0.00000043437574959170888178050518
+jackhammer 		 :  0.01238841470330953598022460937500
+siren 		 :  0.00000000002891160748308418959596
+street_music 		 :  0.00000000528942090127770825347397
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/gun_shot_1.wav&#39;</span>
+
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+
+<span class="c1"># sample data weighted towards gun shot - peak in the dog barking sample is simmilar in shape to the gun shot sample</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: dog_bark 
+
+air_conditioner 		 :  0.02008811198174953460693359375000
+car_horn 		 :  0.00047429648111574351787567138672
+children_playing 		 :  0.00094942341092973947525024414062
+dog_bark 		 :  0.53654015064239501953125000000000
+drilling 		 :  0.00093174201902002096176147460938
+engine_idling 		 :  0.03123776055872440338134765625000
+gun_shot 		 :  0.00091215252177789807319641113281
+jackhammer 		 :  0.00002015420614043250679969787598
+siren 		 :  0.00055970775429159402847290039062
+street_music 		 :  0.40828645229339599609375000000000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../Evaluation audio/siren_1.wav&#39;</span>
+
+<span class="n">print_prediction</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The predicted class is: siren 
+
+air_conditioner 		 :  0.00000732402349967742338776588440
+car_horn 		 :  0.00057092373026534914970397949219
+children_playing 		 :  0.00199068244546651840209960937500
+dog_bark 		 :  0.02090488374233245849609375000000
+drilling 		 :  0.00046552356798201799392700195312
+engine_idling 		 :  0.14164580404758453369140625000000
+gun_shot 		 :  0.00050196843221783638000488281250
+jackhammer 		 :  0.00276053301058709621429443359375
+siren 		 :  0.81527197360992431640625000000000
+street_music 		 :  0.01588040776550769805908203125000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Observations<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The performance of our initial model is satisfactorry and has generalised well, seeming to predict well when tested against new audio data.</p>
+</div>
+</div>
+<div class="section" id="in-the-next-notebook-we-will-refine-our-model">
+<h2><em>In the next notebook we will refine our model</em><a class="headerlink" href="#in-the-next-notebook-we-will-refine-our-model" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "SETIADEEPANSHU/Audio_Classification_Using_CNN",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="2%20Data%20Preprocessing%20and%20Data%20Splitting.html" title="previous page">Data Preprocessing and Data Splitting</a>
+    <a class='right-next' id="next-link" href="4%20Model%20Refinement.html" title="next page">Model Refinement</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Deepanshu Setia<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
